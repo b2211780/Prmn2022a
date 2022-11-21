@@ -34,7 +34,7 @@ public class ATM {
     public void deposit(String number, long money) {
         for (Account account : accountList) {
             if (account.getNumber().equals(number)) {
-                account.setBalance(money);
+                account.setBalance(account.getBalance() + money);
                 System.out.println("口座番号: " + number + " に " + money + " 円入金しました");
             }
         }
@@ -42,12 +42,12 @@ public class ATM {
 
     public long withdraw(String number, long money) {
         for (Account account : accountList) {
-            if (account.getNumber().equals(number) && account.getBalance() > money) {
-                long kane = account.getBalance() - money;
-                System.out.println("口座番号: " + number + " から" + money + " 円引き出しました。　残高:" + kane+"　円");
-                return kane;
+            if (account.getNumber().equals(number) && account.getBalance() >= money) {
+                account.setBalance(account.getBalance() - money);
+                System.out.println("口座番号: " + number + " から" + money + " 円引き出しました。　残高:" + account.getBalance() + "　円");
+                return account.getBalance();
             } else {
-                System.out.println("口座番号:" + number + " から" + money + " 円引き出せませんでした。　残高:" + account.getBalance()+"　円");
+                System.out.println("口座番号:" + number + " から" + money + " 円引き出せませんでした。　残高:" + account.getBalance() + "　円");
             }
         }
         return accountList.get(0).getBalance();
